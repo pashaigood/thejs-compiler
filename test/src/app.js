@@ -182,6 +182,7 @@ namespace('test', {
 });
 
 the.js(function() {
+        console.log(test)
         new test.Test();
         new test.Test2();
     }

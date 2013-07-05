@@ -36,6 +36,16 @@ AppBuilder.make_file = function (class_name, src) {
             }
         }
         
+        
+        
+        for (var i = 0, l = part_modifiers.length; i < l; i++) {
+            file_data = require(PATH + PS + 'ig' + PS + 'pre_modifier' + PS 
+                + part_modifiers[i]).exec(
+                    file_data, class_name
+                );
+        }
+        
+        
         output += file_data;
         AppBuilder.make_file.cache[src+class_name] = true;
     }
@@ -52,11 +62,14 @@ AppBuilder.get_source_data = function(class_path, src) {
         file_data = fs.readFileSync(class_path, 'utf-8') + "\n";
     }
     
-    if (file_data) {
-        for (var i = 0, l = part_modifiers.length; i < l; i++) {
-            file_data = require(PATH + PS + 'ig' + PS + 'pre_modifier' + PS + part_modifiers[i]).exec(file_data, class_path);
-        }
-    }
+    // if (file_data) {
+        // for (var i = 0, l = part_modifiers.length; i < l; i++) {
+            // file_data = require(PATH + PS + 'ig' + PS + 'pre_modifier' + PS 
+                // + part_modifiers[i]).exec(
+                    // file_data, class_path.replace(src + PS, '')
+                // );
+        // }
+    // }
     
     return file_data || '';
 }

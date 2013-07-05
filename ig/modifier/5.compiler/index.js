@@ -11,19 +11,26 @@ exports.exec = function(file, next) {
         cmd = "java"
               + " -jar " + compiler_path
               + " --js " +  tmp_path
-              + " --js_output_file " + tmp_out_path;
+              + " --js_output_file " + tmp_out_path
+              + " --language_in ECMASCRIPT5";
         
     fs.writeFileSync(tmp_path, file);
     var ch = child_process.exec(cmd);
-        
+    
+    ch.stderr.on('data', function(error) {
+        console.log(error);
+    });
+    
     ch.on('exit', function() {
         setTimeout(function() {
-            try{
-                file = fs.readFileSync(tmp_out_path, 'utf-8');
+            var time_file;
+            try {
+                time_file = fs.readFileSync(tmp_out_path, 'utf-8');
                 fs.unlinkSync(tmp_path);
                 fs.unlinkSync(tmp_out_path);
             } catch(e) {}
             
+            file = time_file.length ? time_file : file;            
             next(file);
         }, 300);
     });
