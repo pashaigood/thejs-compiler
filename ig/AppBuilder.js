@@ -1,8 +1,11 @@
+global.PS = '/';
+global.PATH = global.process.env.PWD;
+
 var AppBuilder = exports,
     fs = require('fs'),
     path = require('path'),
-    PS = path.delimiter || path.sep,
-    PATH = global.process.env.PWD,
+    // PS = path.delimiter || path.sep,
+    // PATH = global.process.env.PWD,
     part_modifiers = fs.readdirSync(PATH + PS + "ig" + PS + 'pre_modifier');
     
     
@@ -11,6 +14,8 @@ AppBuilder.LIB = 1;
 AppBuilder.APP = 0;
     
 AppBuilder.build = function(params, ready) {
+    console.log('Start build');
+
     var file = '';
     
     if (params.type == AppBuilder.LIB) {
@@ -21,6 +26,7 @@ AppBuilder.build = function(params, ready) {
     
     file += this.make_file(params.index, params.src);
     exec_modifier(file, params.without_modifier, ready);
+    console.log('End build');
 }
 
 AppBuilder.make_file = function (class_name, src) {
@@ -59,6 +65,7 @@ AppBuilder.get_source_data = function(class_path, src) {
     var file_data;
     
     if (fs.existsSync(class_path)) {
+        console.log(class_path);
         file_data = fs.readFileSync(class_path, 'utf-8') + "\n";
     }
     
@@ -106,7 +113,7 @@ function exec_modifier(file, without_modifier, ready) {
             file = new_file;
         }
         
-        var file_name = files.shift();
+        var file_name = files.pop();
         if (! file_name) {
             ready(file);
             return true

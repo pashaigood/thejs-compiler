@@ -1,3 +1,5 @@
+global.DEBUG = true;
+
 the.js(
     'test.Test',
     'test.Test2',

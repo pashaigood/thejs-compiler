@@ -1,6 +1,5 @@
 namespace('test.subtest', {
     require : [
-        'jquery.Jquery'
     ],
     
     SubTest : {
