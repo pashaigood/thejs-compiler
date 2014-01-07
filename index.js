@@ -6,14 +6,14 @@ var fs = require('fs'),
 (function() {
     var args = global.process.argv.slice(2),
         params = {
-            src : ".",
+            src : global.process.env.PWD,
             index : 'index',
-            outpath : '.',
+            outpath : global.process.env.PWD,
             type : appBuilder.APP,
             without_modifier : ''
         };
-    
-    for(var i=0, l = args.length; i < l; i+=2) {
+
+    for (var i=0, l = args.length; i < l; i+=2) {
         switch(args[i]) {
             case "-src":
                 params.src = args[i+1];
@@ -35,6 +35,7 @@ var fs = require('fs'),
         }
     }
     
+    // console.log(params)
     appBuilder.build(params, function(file) {
         fs.writeFileSync(params.outpath + PS + 'app.js', file);
     });

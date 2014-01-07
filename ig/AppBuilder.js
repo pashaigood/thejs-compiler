@@ -25,7 +25,7 @@ AppBuilder.build = function(params, ready) {
     }
     
     file += this.make_file(params.index, params.src);
-    exec_modifier(file, params.without_modifier, ready);
+    exec_modifier(file, params.without_modifier.split('|'), ready);
     console.log('End build');
 }
 
@@ -106,28 +106,35 @@ AppBuilder.get_required = function(input, type) {
 
 function exec_modifier(file, without_modifier, ready) {
     var path = PATH + PS + 'ig' + PS + 'modifier' + PS;
-        files = fs.readdirSync(path);
-    
+        files = fs.readdirSync(path).sort();
+        
     function next(new_file) {
         if (new_file) {
             file = new_file;
         }
         
-        var file_name = files.pop();
+        var file_name = files.shift();
+
         if (! file_name) {
             ready(file);
             return true
         };
         
-        if (
-            without_modifier
-                &&
-            without_modifier.search(file_name.replace(/^\d\./, '')) > -1
-        ) {
+        var name = file_name.replace(/\d\.([^\.]+).*/, '$1');
+        if (without_modifier.indexOf(name) > -1) {
             next();
             return;
         }
+        // if (
+        //     without_modifier
+        //         &&
+        //     without_modifier.search(file_name.replace(/^\d\./, '')) > -1
+        // ) {
+        //     next();
+        //     return;
+        // }
         
+        console.log('start modifier: ' + name);
         file = require(path + file_name).exec(file, next);
         
         if (file) {
