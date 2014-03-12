@@ -1,7 +1,6 @@
 var uglifyjs = require('uglify-js');
 
 exports.exec  = function(file, next) {
-	// return file;
 	var length = file.length,
 		tmp = uglifyjs.minify(
 		file,
@@ -12,7 +11,7 @@ exports.exec  = function(file, next) {
 				global_defs : {
 					DEBUG : false
 				},
-				// drop_console : true,
+				drop_console : true,
 				sequences     : true,  // join consecutive statemets with the “comma operator”
 				properties    : true,  // optimize property access: a["foo"] → a.foo
 				dead_code     : true,  // discard unreachable code
@@ -36,6 +35,6 @@ exports.exec  = function(file, next) {
 	);
 
 	file = tmp.code;
-	console.log('	compressed value: ' + (length - file.length))
+	console.log('	Origin size: ' + length + ', compressed size: ' + (file.length) + ", saved: " + Math.round((1 - file.length / length) * 100) + "%");
 	return file;
 }

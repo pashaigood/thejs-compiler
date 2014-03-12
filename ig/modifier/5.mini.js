@@ -1,6 +1,4 @@
-var PATH = global.process.env.PWD,
-    path = require('path'),
-    PS = path.delimiter || path.sep,
+var path = require('path'),
     pre_mini = require(PATH + PS + 'ig' + PS + 'pre_modifier' + PS + 'mini');
 
 exports.exec = function(file) {

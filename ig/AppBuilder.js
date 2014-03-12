@@ -1,11 +1,6 @@
-global.PS = '/';
-global.PATH = global.process.env.PWD;
-
 var AppBuilder = exports,
     fs = require('fs'),
     path = require('path'),
-    // PS = path.delimiter || path.sep,
-    // PATH = global.process.env.PWD,
     part_modifiers = fs.readdirSync(PATH + PS + "ig" + PS + 'pre_modifier');
     
     

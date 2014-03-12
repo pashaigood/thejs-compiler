@@ -1,41 +1,38 @@
-var fs = require('fs'),
+global.PS = '/';
+global.PATH = __dirname;
+
+var argv = require('optimist').argv,
+	fs = require('fs'),
     path = require('path'),
     PS = path.delimiter || path.sep,
     appBuilder = require('.' + PS + 'ig' + PS + 'AppBuilder');
     
 (function() {
-    var args = global.process.argv.slice(2),
-        params = {
-            src : global.process.env.PWD,
+    var params = {
+            src : path.normalize(process.cwd() + "/src/"),
             index : 'index',
-            outpath : global.process.env.PWD,
-            type : appBuilder.APP,
+            outpath : path.normalize(process.cwd() + "/"),
+            type : "simple",
             without_modifier : ''
         };
-
-    for (var i=0, l = args.length; i < l; i+=2) {
-        switch(args[i]) {
-            case "-src":
-                params.src = args[i+1];
-                params.outpath = args[i+1];
-                break;
-            case "-index":
-                params.index = args[i+1];
-                break;
-            case "-type":
-                if (args[i+1] =='lib') {
-                    params.type = appBuilder.LIB
-                }
-                break;
-            case "-outpath":
-                params.outpath = args[i+1];
-                break;
-            case "-without-modifier":
-                params.without_modifier = args[i+1];
-        }
+        
+    for (var key in argv) {
+    	params[key] = argv[key];
     }
     
-    // console.log(params)
+    var type_path = PATH + PS + "types" + PS + params['type'] + ".json";
+    if (fs.existsSync(type_path)) {
+    	try {
+		    var type_params = JSON.parse(fs.readFileSync(type_path));
+		    for (var key in type_params) {
+		    	params[key] = type_params[key];
+		    }
+    	}
+    	catch (e) {}
+    }
+    
+    console.log(params);
+    
     appBuilder.build(params, function(file) {
         fs.writeFileSync(params.outpath + PS + 'app.js', file);
     });

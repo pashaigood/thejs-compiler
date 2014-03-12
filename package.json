@@ -1,0 +1,36 @@
+{
+  "name": "thejs-compiler",
+  "version": "0.1.0",
+  "description": "Compiler for thejs",
+  "main": "./index.js",
+  "directories": {
+    "test": "test"
+  },
+  "bin" : {
+  	"thejs-compiler" : "./bin/thejs-compiler"
+  },
+  "dependencies": {
+    "uglify-js": "~2.4.13",
+    "packer": "~0.0.5",
+    "optimist": "~0.6.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pashaigood/thejs-compiler.git"
+  },
+  "keywords": [
+    "javascript",
+    "framework",
+    "structure",
+    "thejs",
+    "frontend",
+    "backend",
+    "compiler"
+  ],
+  "author": "Pavel \"PashaIGood\" Belugin <pashaigood@gmail.com>",
+  "license": "BSD"
+}

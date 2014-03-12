@@ -1,1 +1,0 @@
-node index.js -src test/src -without-modifier "compiler|uglifyjs|packer"
